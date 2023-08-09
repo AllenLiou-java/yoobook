@@ -1,0 +1,134 @@
+.purchase {
+  padding: 100px 0 80px;
+
+  .container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+
+    @include media-w768 {
+      flex-wrap: wrap;
+    }
+
+    img {
+      // width: 40%;
+      max-width: 450px;
+      width: 100%;
+    }
+
+    .purchase__info {
+      max-width: 450px;
+      width: 100%;
+      padding: 10px 40px;
+
+      h3 {
+        font-size: 24px;
+        margin-bottom: 16px;
+        color: $auxiliary;
+      }
+
+      .book {
+        padding-left: 22px;
+        margin-bottom: 16px;
+
+        li {
+          font-size: 18px;
+          line-height: 1.5;
+        }
+      }
+
+      .price {
+        // width: 55%;
+        margin-bottom: 16px;
+        padding-top: 12px;
+        padding-bottom: 12px;
+        border-top: 1px solid $auxiliary;
+        border-bottom: 1px solid $auxiliary;
+        display: flex;
+        flex-wrap: wrap;
+
+        p {
+          margin-right: 30px;
+        }
+
+        .discount_price {
+          color: #AE0000;
+        }
+      }
+
+      .form {
+        display: flex;
+        align-items: center;
+        margin-bottom: 16px;
+        line-height: 36px;
+
+        input {
+          width: 80px;
+          height: 32px;
+          margin: 0 12px;
+          border-radius: 4px;
+          padding-left: 10px;
+        }
+
+        .minus,
+        .plus {
+          font-size: 24px;
+          cursor: pointer;
+        }
+
+        p {
+          padding-left: 20px;
+          padding-right: 20px;
+          font-size: 24px;
+          font-weight: 500;
+          user-select: none;
+        }
+      }
+
+      .button {
+        display: inline-block;
+        background-color: $auxiliary;
+        padding: 12px 30px;
+        color: #fff;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: 500;
+        transition: 0.5s ease;
+        user-select: none;
+
+        &:hover {
+          background-color: $secondary;
+        }
+      }
+    }
+  }
+
+  .order_description {
+    display: flex;
+    flex-direction: column;
+
+    align-items: flex-start;
+    margin-top: 40px;
+    max-width: 960px;
+
+    .line {
+      width: 100%;
+      height: 1px;
+      border-top: 1px dashed #000;
+    }
+
+
+    p {
+      margin: 0;
+    }
+
+    .title {
+      // margin: 0;
+      font-weight: 600;
+      margin-left: -6px;
+      font-size: 18px;
+      line-height: 1.5;
+      margin-top: 12px;
+    }
+  }
+}

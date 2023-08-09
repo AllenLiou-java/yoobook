@@ -1,0 +1,33 @@
+.success {
+  padding-top: 30px;
+  padding-bottom: 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 164px);
+
+
+  .success__icon {
+    font-size: 120px;
+    margin-bottom: 40px;
+  }
+
+  p {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+
+  .btn {
+    padding: 12px 28px;
+    border: 2px solid $secondary;
+    background-color: $secondary;
+    color: #fff;
+    border-radius: 6px;
+    font-weight: 500;
+
+    &:hover {
+      opacity: .9;
+    }
+  }
+}
