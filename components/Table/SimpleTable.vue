@@ -1,5 +1,12 @@
 <template>
   <b-container fluid>
+    <OrderFrom
+      :input-setup="inputSetup"
+      :btn-setup="btnSetup"
+      :form-data="inputValue"
+      @submitEvent="sendOrder"
+      @resetEvent="beforePath"
+    />
     <!-- Main table element -->
     <b-table
       :items="items"
@@ -93,7 +100,11 @@
 </template>
 
 <script>
+import OrderFrom from '@/components/Form/OrderForm.vue'
 export default {
+  components: {
+    OrderFrom,
+  },
   data() {
     return {
       items: [

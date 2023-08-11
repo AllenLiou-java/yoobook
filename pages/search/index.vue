@@ -1,17 +1,27 @@
 <template>
   <div class="search container">
-    <SimpleTable />
+    <template v-if="isOpen">
+      <!-- <SimpleTable /> -->
+      <CompleteTable />
+    </template>
+    <template v-else>
+      <p class="tip">目前尚未開放查詢喔!</p>
+    </template>
   </div>
 </template>
 
 <script>
-import SimpleTable from '@/components/Table/SimpleTable.vue'
+// import SimpleTable from '@/components/Table/SimpleTable.vue'
+import CompleteTable from '@/components/Table/CompleteTable.vue'
 export default {
   components: {
-    SimpleTable,
+    // SimpleTable,
+    CompleteTable,
   },
   data() {
-    return {}
+    return {
+      isOpen: false,
+    }
   },
 }
 </script>

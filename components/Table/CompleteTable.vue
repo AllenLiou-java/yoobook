@@ -5,7 +5,7 @@
       <b-col lg="6" class="my-1">
         <b-form-group
           v-slot="{ ariaDescribedby }"
-          label="Sort"
+          label="排序"
           label-for="sort-by-select"
           label-cols-sm="3"
           label-align-sm="right"
@@ -32,8 +32,8 @@
               size="sm"
               class="w-25"
             >
-              <option :value="false">Asc</option>
-              <option :value="true">Desc</option>
+              <option :value="false">遞增</option>
+              <option :value="true">遞減</option>
             </b-form-select>
           </b-input-group>
         </b-form-group>
@@ -41,7 +41,7 @@
 
       <b-col lg="6" class="my-1">
         <b-form-group
-          label="Initial sort"
+          label="初始排序"
           label-for="initial-sort-select"
           label-cols-sm="3"
           label-align-sm="right"
@@ -99,16 +99,15 @@
             :aria-describedby="ariaDescribedby"
             class="mt-1"
           >
-            <b-form-checkbox value="name">Name</b-form-checkbox>
-            <b-form-checkbox value="age">Age</b-form-checkbox>
-            <b-form-checkbox value="isActive">Active</b-form-checkbox>
+            <b-form-checkbox value="orderId">訂單編號</b-form-checkbox>
+            <b-form-checkbox value="oderDate">訂單日期</b-form-checkbox>
           </b-form-checkbox-group>
         </b-form-group>
       </b-col>
 
-      <b-col sm="5" md="6" class="my-1">
+      <!-- <b-col sm="5" md="6" class="my-1">
         <b-form-group
-          label="Per page"
+          label="每頁資料數"
           label-for="per-page-select"
           label-cols-sm="6"
           label-cols-md="4"
@@ -135,7 +134,7 @@
           size="sm"
           class="my-0"
         ></b-pagination>
-      </b-col>
+      </b-col> -->
     </b-row>
 
     <!-- Main table element -->
@@ -154,18 +153,23 @@
       small
       @filtered="onFiltered"
     >
-      <template #cell(name)="row">
-        {{ row.value.first }} {{ row.value.last }}
+      <template #cell(productName)="row">
+        <ul class="list-unstyled">
+          <li v-for="(item, idx) in row.item.orderList" :key="idx">
+            {{ item.productName }}
+          </li>
+        </ul>
+      </template>
+
+      <template #cell(qty)="row">
+        <ul class="list-unstyled">
+          <li v-for="(item, idx) in row.item.orderList" :key="idx">
+            {{ item.qty }}
+          </li>
+        </ul>
       </template>
 
       <template #cell(actions)="row">
-        <b-button
-          size="sm"
-          class="mr-1"
-          @click="info(row.item, row.index, $event.target)"
-        >
-          Info modal
-        </b-button>
         <b-button size="sm" @click="row.toggleDetails">
           {{ row.detailsShowing ? 'Hide' : 'Show' }} Details
         </b-button>
@@ -191,6 +195,39 @@
     >
       <pre>{{ infoModal.content }}</pre>
     </b-modal>
+
+    <b-row class="my-5">
+      <b-col sm="5" md="4" class="my-1">
+        <b-form-group
+          label="每頁資料數"
+          label-for="per-page-select"
+          label-cols-sm="6"
+          label-cols-md="4"
+          label-cols-lg="6"
+          label-align-sm="right"
+          label-size="sm"
+          class="mb-0"
+        >
+          <b-form-select
+            id="per-page-select"
+            v-model="perPage"
+            :options="pageOptions"
+            size="sm"
+          ></b-form-select>
+        </b-form-group>
+      </b-col>
+
+      <b-col sm="7" md="6" class="my-1">
+        <b-pagination
+          v-model="currentPage"
+          :total-rows="totalRows"
+          :per-page="perPage"
+          align="fill"
+          size="sm"
+          class="my-0"
+        ></b-pagination>
+      </b-col>
+    </b-row>
   </b-container>
 </template>
 
@@ -200,60 +237,104 @@ export default {
     return {
       items: [
         {
-          isActive: true,
-          age: 40,
-          name: { first: 'Dickerson', last: 'Macdonald' },
+          backAccountNo: '12345',
+          buyer: 'Allen co.',
+          email: 'allen@gmail.com',
+          oderDate: '2023/07/31 16:03',
+          orderId: '20230731160334488206',
+          orderList: [
+            {
+              productId: 'AA000001',
+              productName: '公司登記實務及案例解析(共三冊)',
+              qty: 10,
+            },
+          ],
+          phone: '0911123456',
+          receiver: {
+            address: 'Taichung',
+            name: 'Allen Liou',
+          },
+          taxId: '123456',
+          totalPrice: 54000,
         },
-        { isActive: false, age: 21, name: { first: 'Larsen', last: 'Shaw' } },
         {
-          isActive: false,
-          age: 9,
-          name: { first: 'Mini', last: 'Navarro' },
-          _rowVariant: 'success',
+          backAccountNo: '12345',
+          buyer: 'Allen co.',
+          email: 'allen@gmail.com',
+          oderDate: '2023/07/30 16:03',
+          orderId: '20230731160334488205',
+          orderList: [
+            {
+              productId: 'AA000001',
+              productName: '公司登記實務(共三冊)',
+              qty: 5,
+            },
+            {
+              productId: 'AA000001',
+              productName: '公司登記實務',
+              qty: 8,
+            },
+          ],
+          phone: '0911123456',
+          receiver: {
+            address: 'Taichung',
+            name: 'Allen Liou',
+          },
+          taxId: '123456',
+          totalPrice: 52000,
         },
-        { isActive: false, age: 89, name: { first: 'Geneva', last: 'Wilson' } },
-        { isActive: true, age: 38, name: { first: 'Jami', last: 'Carney' } },
-        { isActive: false, age: 27, name: { first: 'Essie', last: 'Dunlap' } },
-        { isActive: true, age: 40, name: { first: 'Thor', last: 'Macdonald' } },
         {
-          isActive: true,
-          age: 87,
-          name: { first: 'Larsen', last: 'Shaw' },
-          _cellVariants: { age: 'danger', isActive: 'warning' },
+          backAccountNo: '12345',
+          buyer: 'Allen co.',
+          email: 'allen@gmail.com',
+          oderDate: '2023/07/29 16:03',
+          orderId: '20230731160334488204',
+          orderList: [
+            {
+              productId: 'AA000001',
+              productName: '公司登記案例解析(共三冊)',
+              qty: 2,
+            },
+          ],
+          phone: '0911123456',
+          receiver: {
+            address: 'Taichung',
+            name: 'Allen Liou',
+          },
+          taxId: '123456',
+          totalPrice: 53000,
         },
-        { isActive: false, age: 26, name: { first: 'Mitzi', last: 'Navarro' } },
-        {
-          isActive: false,
-          age: 22,
-          name: { first: 'Genevieve', last: 'Wilson' },
-        },
-        { isActive: true, age: 38, name: { first: 'John', last: 'Carney' } },
-        { isActive: false, age: 29, name: { first: 'Dick', last: 'Dunlap' } },
       ],
       fields: [
         {
-          key: 'name',
-          label: 'Person full name',
-          sortable: true,
-          sortDirection: 'desc',
-        },
-        {
-          key: 'age',
-          label: 'Person age',
-          sortable: true,
+          key: 'orderId',
+          label: '訂單編號',
           class: 'text-center',
         },
         {
-          key: 'isActive',
-          label: 'Is Active',
-          formatter: (value, key, item) => {
-            return value ? 'Yes' : 'No'
-          },
+          key: 'oderDate',
+          label: '訂單日期',
           sortable: true,
-          sortByFormatted: true,
-          filterByFormatted: true,
+          sortDirection: 'desc',
+          class: 'text-center',
         },
-        { key: 'actions', label: 'Actions' },
+        {
+          key: 'productName',
+          label: '產品名稱',
+          class: 'text-center',
+        },
+        {
+          key: 'qty',
+          label: '訂購量',
+          class: 'text-center',
+        },
+        {
+          key: 'totalPrice',
+          label: '總金額',
+          sortable: true,
+          class: 'text-center',
+        },
+        { key: 'actions', label: '操作', class: 'text-center' },
       ],
       totalRows: 1,
       currentPage: 1,

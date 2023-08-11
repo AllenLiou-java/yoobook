@@ -86,18 +86,33 @@ export default {
       type: Array,
       required: true,
     },
+    formData: {
+      type: Object,
+      default() {
+        return {
+          buyer: '',
+          recipient: '',
+          address: '',
+          email: '',
+          phone: '',
+          taxId: '',
+          account: '',
+        }
+      },
+    },
   },
   data() {
     return {
-      inputValue: {
-        buyer: '',
-        recipient: '',
-        address: '',
-        email: '',
-        phone: '',
-        taxId: '',
-        account: '',
-      },
+      // inputValue: {
+      //   buyer: '',
+      //   recipient: '',
+      //   address: '',
+      //   email: '',
+      //   phone: '',
+      //   taxId: '',
+      //   account: '',
+      // },
+      inputValue: this.formData,
     }
   },
   computed: {

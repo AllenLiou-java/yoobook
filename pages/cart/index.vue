@@ -48,6 +48,7 @@
         <OrderFrom
           :input-setup="inputSetup"
           :btn-setup="btnSetup"
+          :form-data="inputValue"
           @submitEvent="sendOrder"
           @resetEvent="beforePath"
         />
@@ -150,6 +151,15 @@ export default {
         { type: 'reset', btnName: '返回', variant: 'primary' },
         { type: 'submit', btnName: '訂單送出', variant: 'secondary' },
       ],
+      inputValue: {
+        buyer: '',
+        recipient: '',
+        address: '',
+        email: '',
+        phone: '',
+        taxId: '',
+        account: '',
+      },
     }
   },
   computed: {

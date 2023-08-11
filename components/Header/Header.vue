@@ -2,7 +2,7 @@
   <div class="header">
     <div class="container">
       <nuxt-link to="/">
-        <h1 class="logo">YoooBook</h1>
+        <h1 class="logo">Yooooobook</h1>
       </nuxt-link>
 
       <div class="toggle" @click="toggleNavbar"></div>

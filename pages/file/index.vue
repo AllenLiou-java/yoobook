@@ -1,11 +1,16 @@
 <template>
-  <div class="container content-layout">
-    <form @submit.prevent="uploadFile">
-      <input type="file" name="file" required @change="fileChange" />
-      <input type="submit" value="Upload" />
-    </form>
+  <div class="file container">
+    <template v-if="isOpen">
+      <form @submit.prevent="uploadFile">
+        <input type="file" name="file" required @change="fileChange" />
+        <input type="submit" value="Upload" />
+      </form>
 
-    <p>{{ img }}</p>
+      <p>{{ img }}</p>
+    </template>
+    <template v-else>
+      <p class="tip">尚無附件可供下載!</p>
+    </template>
   </div>
 </template>
 
@@ -15,6 +20,7 @@ export default {
   data() {
     return {
       img: '',
+      isOpen: false,
     }
   },
   methods: {
@@ -35,8 +41,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.content-layout {
-  margin-top: 100px;
-  padding-top: 60px;
-}
+@import './file.scss';
 </style>
