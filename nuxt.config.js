@@ -1,3 +1,13 @@
+require('dotenv').config()
+const {
+  FIREBASE_API_KEY,
+  GOOGLE_CLIENT_ID,
+  GOOGLE_SECRET_ID,
+  GOOGLE_API_URL,
+  API_URL,
+  WEB_URL,
+} = process.env
+
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -98,5 +108,13 @@ export default {
     { path: '/auth', handler: '~/server/auth.js' },
     { path: '/api', handler: '~/server/api.js' },
   ],
-  target: 'static',
+  // target: 'static',
+  env: {
+    FIREBASE_API_KEY,
+    GOOGLE_CLIENT_ID,
+    GOOGLE_SECRET_ID,
+    GOOGLE_API_URL,
+    API_URL,
+    WEB_URL,
+  },
 }

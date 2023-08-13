@@ -4,15 +4,15 @@ const express = require('express')
 const app = express()
 const axios = require('axios')
 
-const google_client_id = process.env.google_client_id
-const google_secret_id = process.env.google_secret_id // 這個一定不能曝露到客戶端!!!
+const google_client_id = process.env.GOOGLE_CLIENT_ID
+const google_secret_id = process.env.GOOGLE_SECRET_ID // 這個一定不能曝露到客戶端!!!
 // var firebaseApiKey = "AIzaSyCTwCfIuo0TtxxzJyOaj-1LJHO87WWVqbw" //填上firebase 的 api key (不能填 nuxt.config.js 裡的 process env)
 
 // var process_url = "http://localhost:3013"; //填上你開發環境的網址
 // if(process.env.NODE_ENV == "production") process_url = "https://wayne1894nuxt.club"; //填上你生產環境的網址
 
-const firebaseApiKey = process.env.firebaseApiKey
-const process_url = process.env.web_url
+const firebaseApiKey = process.env.FIREBASE_API_KEY
+const process_url = process.env.WEB_URL
 
 app.get('/', (req, res) => {
   const referer = req.headers.referer // 前端請求過來的路徑

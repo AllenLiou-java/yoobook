@@ -1,12 +1,12 @@
 /* eslint-disable no-console */
 export default function ({ $axios, redirect }) {
-  $axios.setBaseURL(process.env.api_url)
+  $axios.setBaseURL(process.env.API_URL)
 
   $axios.onRequest((config) => {
     console.log('Making request to ' + config.url)
 
     config.params = {
-      key: process.env.firebaseApiKey,
+      key: process.env.FIREBASE_API_KEY,
     }
     // console.log(config)
   })

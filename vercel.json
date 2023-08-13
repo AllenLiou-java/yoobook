@@ -1,0 +1,26 @@
+{
+  "version": 2,
+  "routes": [
+    {
+      "src": "/server/auth",
+      "dest": "/server/auth.js"
+    },
+    {
+      "src": "/server/api",
+      "dest": "/server/api.js"
+    }
+  ],
+  "builds": [
+    {
+      "src": "server/**/*.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "nuxt.config.js",
+      "use": "@nuxtjs/vercel-builder",
+      "config": {
+        "serverFiles": ["server/**"]
+      }
+    }
+  ]
+}

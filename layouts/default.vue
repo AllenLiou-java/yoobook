@@ -87,7 +87,7 @@ export default {
         this.$axios({
           method: API.member.login.method,
           url: API.member.login.url,
-          baseURL: process.env.google_api_url,
+          baseURL: process.env.GOOGLE_API_URL,
           headers: {
             'Content-Type': 'application/json',
           },
@@ -111,7 +111,7 @@ export default {
         this.$axios({
           method: API.member.registered.method,
           url: API.member.registered.url,
-          baseURL: process.env.google_api_url,
+          baseURL: process.env.GOOGLE_API_URL,
           headers: {
             'Content-Type': 'application/json',
           },

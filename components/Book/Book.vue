@@ -111,29 +111,29 @@ export default {
   methods: {
     onFlipLeftStart(page) {
       // eslint-disable-next-line no-console
-      console.log('flip-left-start', page)
+      // console.log('flip-left-start', page)
     },
     onFlipLeftEnd(page) {
       // eslint-disable-next-line no-console
-      console.log('flip-left-end', page)
+      // console.log('flip-left-end', page)
       window.location.hash = `book/${this.pagesContent.name}/` + page
     },
     onFlipRightStart(page) {
       // eslint-disable-next-line no-console
-      console.log('flip-right-start', page)
+      // console.log('flip-right-start', page)
     },
     onFlipRightEnd(page) {
       // eslint-disable-next-line no-console
-      console.log('flip-right-end', page)
+      // console.log('flip-right-end', page)
       window.location.hash = `book/${this.pagesContent.name}/` + page
     },
     onZoomStart(zoom) {
       // eslint-disable-next-line no-console
-      console.log('zoom-start', zoom)
+      // console.log('zoom-start', zoom)
     },
     onZoomEnd(zoom) {
       // eslint-disable-next-line no-console
-      console.log('zoom-end', zoom)
+      // console.log('zoom-end', zoom)
     },
     setPageFromHash() {
       const n = parseInt(window.location.hash.split('/')[2], 10)
