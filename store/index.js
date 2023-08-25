@@ -8,6 +8,8 @@ export const state = () => ({
   userPicture: '',
   userName: '',
   userUid: '',
+  userEmail: '',
+  emailVerified: false,
   isOpenLoginModal: false,
   isOpenLogoutModal: false,
   modalType: 'login',
@@ -18,16 +20,20 @@ export const mutations = {
     state.isUserLoggedIn = true
     state.userPicture =
       payload.userPicture ||
-      'https://fakeimg.pl/350x200/003756/?text=' + state.userName
+      'https://fakeimg.pl/100x100/5c6bc0/fff/?text=' + state.userName
     state.userName = payload.userName
     state.userUid = payload.userUid
+    state.userEmail = payload.email
+    state.emailVerified = payload.emailVerified
 
     if (process.client) {
+      Cookie.set('userName', payload.userName)
+      Cookie.set('emailVerified', payload.emailVerified)
+      Cookie.set('userUid', payload.userUid)
       Cookie.set('id_token', payload.id_token)
       Cookie.set('refresh_token', payload.refresh_token)
-      Cookie.set('userUid', state.userUid)
+      Cookie.set('email', payload.email)
       Cookie.set('userPicture', state.userPicture)
-      Cookie.set('userName', state.userName)
     }
   },
   setUserLogout(state, payload) {
@@ -42,6 +48,8 @@ export const mutations = {
       Cookie.remove('userUid')
       Cookie.remove('userPicture')
       Cookie.remove('userName')
+      Cookie.remove('email')
+      Cookie.remove('emailVerified')
     }
 
     this.$router.push({ name: 'index' })
@@ -58,6 +66,9 @@ export const mutations = {
   setModalType(state, payload) {
     state.modalType = payload
   },
+  setEmailVerified(state, payload) {
+    state.emailVerified = payload
+  },
 }
 
 export const getters = {}
@@ -67,7 +78,6 @@ export const actions = {
     // Oauth 回來時提早觸發
     if (context.query.id_token && context.query.refresh_token) {
       const id_token_Decode = jwtDecode(context.query.id_token)
-      // console.log(id_token_Decode)
 
       commit('setUserLoggedIn', {
         userName: id_token_Decode.name,
@@ -106,7 +116,7 @@ export const actions = {
       })
     }
   },
-  saveMemberInfo({ state }, payload) {
+  saveMemberInfo({ state, commit }, payload) {
     const uid = (payload && payload.userUid) || state.userUid
 
     return this.$axios({
@@ -117,12 +127,19 @@ export const actions = {
       },
     })
       .then((res) => {
-        // eslint-disable-next-line no-console
-        console.log(res.data, 'patchMemberInfo response')
+        commit('setOpenLoginModal', false)
       })
       .catch((error) => {
         // eslint-disable-next-line no-console
         console.log(error, 'error')
       })
+  },
+  emailVerify(context, payload) {
+    return this.$axios({
+      baseURL: process.env.GOOGLE_API_URL,
+      method: API.member.emailVerify.method,
+      url: API.member.emailVerify.url,
+      data: { requestType: 'VERIFY_EMAIL', idToken: payload },
+    })
   },
 }

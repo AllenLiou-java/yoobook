@@ -13,7 +13,8 @@ import Google from 'vue-material-design-icons/Google'
 import Plus from 'vue-material-design-icons/PlusThick'
 import Minus from 'vue-material-design-icons/MinusThick'
 import CheckCircleOutline from 'vue-material-design-icons/CheckCircleOutline'
-import PhoneOutline from 'vue-material-design-icons/phoneOutline'
+import CheckBold from 'vue-material-design-icons/CheckBold'
+import PhoneOutline from 'vue-material-design-icons/PhoneOutline'
 import OfficeBuilding from 'vue-material-design-icons/OfficeBuilding'
 
 import 'vue-material-design-icons/styles.css'
@@ -31,5 +32,6 @@ Vue.component('Google', Google)
 Vue.component('Plus', Plus)
 Vue.component('Minus', Minus)
 Vue.component('CheckCircleOutline', CheckCircleOutline)
+Vue.component('CheckBold', CheckBold)
 Vue.component('PhoneOutline', PhoneOutline)
 Vue.component('OfficeBuilding', OfficeBuilding)

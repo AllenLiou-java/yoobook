@@ -15,6 +15,20 @@ const API = {
       url: '/v1/token',
       method: 'post',
     },
+    // request參數 {"requestType": "VERIFY_EMAIL", "idToken": ""}
+    emailVerify: {
+      url: '/v1/accounts:sendOobCode',
+      method: 'post',
+    },
+    // request參數 {"requestType": "PASSWORD_RESET", "email": ""}
+    passwordReset: {
+      url: '/v1/accounts:sendOobCode',
+      method: 'post',
+    },
+    getAccountInfo: {
+      url: '/v1/accounts:lookup',
+      method: 'post',
+    },
   },
   // 取得會員資料
   getMemberInfo: {

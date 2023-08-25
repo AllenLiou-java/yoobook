@@ -19,7 +19,7 @@
           </a>
           <hr class="login_or" />
 
-          <form @submit="checkForm">
+          <form novalidate @submit="checkForm">
             <div class="input_box">
               <span class="icon">
                 <email />
@@ -36,19 +36,21 @@
               <label>Password</label>
               <p v-if="passwordWithError" class="errorMsg">請輸入password</p>
             </div>
-            <!-- <div class="remember_forgot">
-							<label><input type="checkbox" />Remember me</label>
-							<a href="#">Forgot Password?</a>
-						</div> -->
+            <a
+              class="d-inline-block mb-3 text-secondary fw-bold"
+              href="#"
+              @click="toChangePassword"
+              >忘記密碼?</a
+            >
             <p class="errorMsg">{{ errorMsg }}</p>
-            <button type="submit" class="btn btn_login_register">
+            <button type="submit" class="btn btn-secondary">
               {{ modalTitle }}
             </button>
             <div class="login_register">
               <p>
-                Don't have account?
+                尚未擁有帳號?
                 <a href="#" class="register_link" @click.prevent="toRegister()"
-                  >Register</a
+                  >前往註冊</a
                 >
               </p>
             </div>
@@ -64,7 +66,7 @@
           </a>
           <hr class="login_or" />
 
-          <form @submit="checkForm">
+          <form novalidate @submit="checkForm">
             <div class="input_box">
               <span class="icon">
                 <account />
@@ -103,22 +105,48 @@
                 請檢查Password與Repeat Password是否相同
               </p>
             </div>
-            <!-- <div class="remember_forgot">
-							<label
-								><input type="checkbox" /> agree to the terms &
-								conditions</label
-							>
-						</div> -->
-            <button type="submit" class="btn btn_login_register">
+            <p class="errorMsg">{{ errorMsg }}</p>
+            <button type="submit" class="btn btn-secondary">
               {{ modalTitle }}
             </button>
             <div class="login_register">
               <p>
-                Already have an account?
+                已經擁有帳號?
                 <a href="#" class="login_link" @click.prevent="toLogin()"
-                  >Login</a
+                  >前往登入</a
                 >
               </p>
+            </div>
+          </form>
+        </div>
+        <div
+          v-if="modalType == 'forgetPassword'"
+          class="form_box forgetPassword"
+        >
+          <h2>{{ modalTitle }}</h2>
+
+          <form novalidate @submit="checkForm">
+            <div class="input_box">
+              <span class="icon">
+                <email />
+              </span>
+              <input ref="emailInput" v-model="email" type="email" />
+              <label>Email</label>
+              <p v-if="emailWithError" class="errorMsg">請檢查email是否正確</p>
+            </div>
+            <p class="errorMsg">{{ errorMsg }}</p>
+
+            <div class="row row-cols-1 row-cols-md-2 gx-md-5">
+              <div class="col mb-sm-3 mb-md-0">
+                <button type="submit" class="btn btn-secondary">
+                  發送請求
+                </button>
+              </div>
+              <div class="col">
+                <button type="submit" class="btn btn-primary" @click="toLogin">
+                  返回
+                </button>
+              </div>
             </div>
           </form>
         </div>
@@ -152,7 +180,7 @@ export default {
       password: '',
       repeatPassword: '',
       username: '',
-      emailWithError: null,
+      emailWithError: false,
       passwordWithError: null,
       nameWithError: null,
       repeatPasswordWithError: null,
@@ -164,56 +192,82 @@ export default {
         return '登入'
       } else if (this.modalType === 'register') {
         return '註冊'
+      } else if (this.modalType === 'forgetPassword') {
+        return '變更密碼'
       } else {
         return '登出'
       }
     },
   },
   watch: {
-    email() {
+    email(newVal, oldVal) {
       const input = this.$refs.emailInput
       if (this.email) {
         input.classList.add('active')
       } else {
         input.classList.remove('active')
       }
+
+      if (newVal !== oldVal) {
+        this.emailWithError = ''
+      }
     },
-    password() {
+    password(newVal, oldVal) {
       const input = this.$refs.passwordInput
       if (this.password) {
         input.classList.add('active')
       } else {
         input.classList.remove('active')
       }
+
+      if (newVal !== oldVal) {
+        this.passwordWithError = ''
+      }
     },
-    repeatPassword() {
+    repeatPassword(newVal, oldVal) {
       const input = this.$refs.repeatPasswordInput
       if (this.repeatPassword) {
         input.classList.add('active')
       } else {
         input.classList.remove('active')
       }
+
+      if (newVal !== oldVal) {
+        this.repeatPasswordWithError = ''
+      }
     },
-    username() {
+    username(newVal, oldVal) {
       const input = this.$refs.usernameInput
       if (this.username) {
         input.classList.add('active')
       } else {
         input.classList.remove('active')
       }
+
+      if (newVal !== oldVal) {
+        this.nameWithError = ''
+      }
     },
   },
   methods: {
     toRegister() {
       const wrapper = this.$refs.wrapper
-      wrapper.classList.add('active')
+      wrapper.classList.add('activeRegister')
+
       this.$emit('update:modalType', 'register')
       this.formDataReset()
     },
     toLogin() {
       const wrapper = this.$refs.wrapper
-      wrapper.classList.remove('active')
+      wrapper.classList.remove('activeRegister')
+      wrapper.classList.remove('activeForgetPassword')
       this.$emit('update:modalType', 'login')
+      this.formDataReset()
+    },
+    toChangePassword() {
+      const wrapper = this.$refs.wrapper
+      wrapper.classList.add('activeForgetPassword')
+      this.$emit('update:modalType', 'forgetPassword')
       this.formDataReset()
     },
     formDataReset() {
@@ -264,6 +318,15 @@ export default {
         }
       }
 
+      // 驗證email
+      if (this.modalType === 'forgetPassword') {
+        if (this.email.search(emailRule) === -1)
+          return (this.emailWithError = true)
+      }
+
+      this.emitFormContent()
+    },
+    emitFormContent() {
       // 傳送emit事件與data 到default.vue執行login & register
       this.$emit('loginModalSubmit', {
         modalType: this.modalType,
@@ -271,9 +334,6 @@ export default {
         email: this.email,
         password: this.password,
       })
-
-      this.formDataReset()
-      unlockScroll()
     },
   },
 }

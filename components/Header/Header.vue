@@ -11,9 +11,6 @@
         <li @click="moveToTop()">
           <nuxt-link to="/">首頁</nuxt-link>
         </li>
-        <!-- <li @click="moveToAboutBook()">
-            <nuxt-link to="/#about_book">書籍介紹</nuxt-link>
-          </li> -->
         <li>
           <nuxt-link to="/order">預購書籍</nuxt-link>
         </li>
@@ -43,21 +40,13 @@
 
 <script>
 import { lockScroll } from '@/assets/js/tool'
-// import { getPosition, lockScroll } from '@/assets/js/tool'
 
 export default {
   // eslint-disable-next-line vue/no-reserved-component-names
   name: 'Header',
 
   data() {
-    return {
-      // 上限(不含)
-      breakpointUpperLimit: {
-        lg: 1440,
-        md: 1200,
-        ms: 768,
-      },
-    }
+    return {}
   },
   computed: {
     eventType() {
@@ -76,10 +65,8 @@ export default {
     },
   },
   mounted() {
-    // this.linkReset()
     window.addEventListener('scroll', () => {
       this.toggleHeader()
-      // this.toggleLink()
     })
   },
   methods: {
@@ -87,48 +74,12 @@ export default {
       const header = document.querySelector('.header')
       header.classList.toggle('sticky', window.scrollY > 0)
     },
-    // toggleLink() {
-    //   const clientWidth = document.body.clientWidth
-    //   if (clientWidth >= this.breakpointUpperLimit.ms) {
-    //     this.setIndexLinkActive(1400)
-    //   }
-    // },
-    // setIndexLinkActive(clientWidth) {
-    //   const links = document.querySelectorAll('.navigation > li > a')
-
-    //   links.forEach((link) => {
-    //     link.classList.remove('nuxt-link-active', 'nuxt-link-exact-active')
-    //   })
-
-    //   links[0].classList.toggle(
-    //     'nuxt-link-exact-active',
-    //     window.scrollY < clientWidth
-    //   )
-
-    //   links[1].classList.toggle(
-    //     'nuxt-link-exact-active',
-    //     window.scrollY >= clientWidth
-    //   )
-    // },
-    // linkReset() {
-    //   this.$router.push('/')
-    //   this.moveToTop()
-    // },
     moveToTop() {
       window.scrollTo({
         top: 0,
         behavior: 'smooth',
       })
     },
-    // moveToAboutBook() {
-    //   const aboutBook = document.querySelector('.about_book')
-    //   const position = getPosition(aboutBook)
-
-    //   window.scrollTo({
-    //     top: position.y,
-    //     behavior: 'smooth',
-    //   })
-    // },
     toggleNavbar() {
       const toggle = document.querySelector('.toggle')
       const navigation = document.querySelector('.navigation')
